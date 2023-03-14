@@ -31,4 +31,11 @@
     <string name="next_day_ground_delivery">Next day ground delivery</string>
     <string name="pick_up">Pick up</string>
     <string name="title_activity_main2">MainActivity2</string>
+
+    <string-array name="labels_array" >
+        <item>Home</item>
+        <item>Work</item>
+        <item>Mobile</item>
+        <item>Other</item>
+    </string-array>
 </resources>
