@@ -1,17 +1,24 @@
 package com.example.droidcafe;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class OrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -19,6 +26,7 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
         Spinner spinner = findViewById(R.id.label_spinner);
         if (spinner != null) {
             spinner.setOnItemSelectedListener(this);
@@ -35,7 +43,22 @@ public class OrderActivity extends AppCompatActivity implements AdapterView.OnIt
         if (order_message != null) {
             textView.setText(order_message);
         }
+        EditText telNum = findViewById(R.id.phone_text);
+        String number = telNum.getText().toString();
+        Uri num = Uri.parse("tel:"+number);
+        telNum.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    Log.d(TAG, "hello");
+                    Intent intent = new Intent(Intent.ACTION_DIAL, num);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
+
 
     public void displayToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
